@@ -27,9 +27,9 @@ DICT = {
 
 def main():
     for fileName in os.listdir(OLDPATH):
-        if '.doc' in fileName:
-            # turn '.doc' to '.docx' then save it into the 'new' foler
-	    word = client.Dispatch('Word.Application')
+        if '.doc' in fileName and '.docx' not in fileName:
+            # turn .doc to .docx and save it into the 'new' foler
+            word = client.Dispatch('Word.Application')
             print(OLDPATH + "\\" + fileName)
             doc = word.Documents.Open(OLDPATH + "\\" + fileName)
             fileName = fileName.replace('.doc', '.docx') 
@@ -51,9 +51,13 @@ def check(document):
     for table in document.tables:
         for row in range(len(table.rows)):
             for col in range(len(table.columns)):
-                for key, value in DICT.items():
-                    if key in table.cell(row ,col).text:
-                        table.cell(row ,col).text = table.cell(row ,col).text.replace(key, value)
+                try:
+                    for key, value in DICT.items():
+                        if key in table.cell(row ,col).text:
+                            table.cell(row ,col).text = table.cell(row ,col).text.replace(key, value)
+                except Exception as e:
+                    continue
+                
 
     # paragraphs
     for para in document.paragraphs:       
