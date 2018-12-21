@@ -28,7 +28,8 @@ DICT = {
 def main():
     for fileName in os.listdir(OLDPATH):
         if '.doc' in fileName:
-            word = client.Dispatch('Word.Application')
+            # turn '.doc' to '.docx' then save it into the 'new' foler
+	    word = client.Dispatch('Word.Application')
             print(OLDPATH + "\\" + fileName)
             doc = word.Documents.Open(OLDPATH + "\\" + fileName)
             fileName = fileName.replace('.doc', '.docx') 
